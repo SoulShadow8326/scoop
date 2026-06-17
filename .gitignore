@@ -1,0 +1,6 @@
+.env
+context.md
+architecture.md
+.venv
+__pycache__
+**.db
