@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scoop | Landing</title>
+    <meta name="description" content="An information intelligence platform analyzing evidence, trust lineage, context integrity, and emotional framing of community claims.">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/landing/landing.css">
+    <link rel="stylesheet" href="/static/header/header.css">
+    <link rel="stylesheet" href="/static/landing/hero/hero.css">
+    <link rel="stylesheet" href="/static/landing/features/features.css">
+    <link rel="stylesheet" href="/static/footer/footer.css">
+</head>
+<body>
+    {% include "header/header.html" %}
+    <main class="landing-main">
+        {% include "landing/hero/hero.html" %}
+        {% include "landing/features/features.html" %}
+    </main>
+    {% include "footer/footer.html" %}
+    <script src="/static/landing/landing.js"></script>
+</body>
+</html>

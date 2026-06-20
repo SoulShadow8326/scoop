@@ -161,18 +161,15 @@ def emotional_manipulation_node(state: GraphState) -> GraphState:
     res = llm.invoke(messages)
     parsed = _parse_json(res.content)
 
-    # Ensure consistent schema with sensible defaults
-    defaults = {
-        "fear": 0.0,
-        "anger": 0.0,
-        "outrage": 0.0,
-        "urgency": 0.0,
-        "guilt": 0.0,
-        "overall_manipulation_score": 0.0,
-        "techniques_detected": [],
+    state["emotional_manipulation"] = {
+        "fear": parsed.get("fear_score", parsed.get("fear", 0)),
+        "anger": parsed.get("anger_score", parsed.get("anger", 0)),
+        "outrage": parsed.get("outrage_score", parsed.get("outrage", 0)),
+        "urgency": parsed.get("urgency_score", parsed.get("urgency", 0)),
+        "guilt": parsed.get("guilt_score", parsed.get("guilt", 0)),
+        "manipulation_risk": parsed.get("manipulation_risk", 0),
+        "techniques_detected": parsed.get("techniques_detected", []),
     }
-    defaults.update(parsed)
-    state["emotional_manipulation"] = defaults
     return state
 
 
@@ -184,7 +181,7 @@ def context_integrity_node(state: GraphState) -> GraphState:
     """Evaluate whether the claim preserves its original context."""
     claim = state.get("claim", "")
     screenshot_ref = state.get("screenshot_ref", "")
-    metadata = state.get("metadata", {})
+    metadata = state.get("input_metadata", {})
 
     parts = [f"Claim: {claim}"]
     if screenshot_ref:

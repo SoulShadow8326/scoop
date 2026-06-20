@@ -268,9 +268,9 @@ def confidence_engine_node(state: GraphState) -> GraphState:
     em = state.get("emotional_manipulation", {})
     manipulation_risk_val = float(em.get("manipulation_risk", 50))
 
-    # Evidence strength
+    # Evidence strength (score is 0-1 weighted average, normalize to 0-100)
     es = state.get("evidence_strength", {})
-    evidence_strength_val = float(es.get("score", 50))
+    evidence_strength_val = float(es.get("score", 0.5)) * 100
 
     # Main confidence score
     confidence_score = (

@@ -1,0 +1,45 @@
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Poppins', sans-serif;
+    background-color: #F3F3F9;
+    color: #0C0C0C;
+    background-image:
+        linear-gradient(rgba(71, 89, 228, 0.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(71, 89, 228, 0.04) 1px, transparent 1px);
+    background-size: 48px 48px;
+    overflow-x: hidden;
+}
+
+.landing-main {
+    padding-top: 72px;
+    min-height: calc(100vh - 72px);
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
+}
+
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: #F3F3F9;
+}
+
+::-webkit-scrollbar-thumb {
+    background: rgba(71, 89, 228, 0.2);
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: rgba(71, 89, 228, 0.4);
+}
+
+.highlight-purple {
+    color: #4759E4;
+}
+
+.highlight-red {
+    color: #EE2F39;
+}

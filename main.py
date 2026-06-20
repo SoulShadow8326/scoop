@@ -1,4 +1,8 @@
-from fastapi import FastAPI, HTTPException, Depends
+from fastapi import FastAPI, HTTPException, Depends, Request
+from fastapi.responses import HTMLResponse
+from fastapi.staticfiles import StaticFiles
+from fastapi.templating import Jinja2Templates
+from sqlalchemy import text
 from sqlalchemy.orm import Session
 import uuid
 import datetime
@@ -17,7 +21,60 @@ from agents.graph import app_graph
 
 Base.metadata.create_all(bind=engine)
 
+def _migrate():
+    migrations = {
+        "claims": {
+            "screenshot_ref": "TEXT",
+            "metadata_json": "TEXT",
+            "fingerprint": "TEXT",
+            "canonical_form": "TEXT",
+        },
+        "analysis_snapshots": {
+            "information_dna": "TEXT",
+            "citation_graph": "TEXT",
+            "trust_passport": "TEXT",
+            "emotional_manipulation": "TEXT",
+            "context_integrity": "TEXT",
+            "evidence_strength": "TEXT",
+            "courtroom_reasoning": "TEXT",
+            "belief": "TEXT",
+            "skeptic_output": "TEXT",
+            "constitution": "TEXT",
+            "source_classifications": "TEXT",
+            "structured_evidence": "TEXT",
+            "evidence_graph_data": "TEXT",
+        },
+    }
+    with engine.connect() as conn:
+        existing_tables = {
+            row[0] for row in conn.execute(
+                text("SELECT name FROM sqlite_master WHERE type='table'")
+            ).fetchall()
+        }
+        for table, columns in migrations.items():
+            if table not in existing_tables:
+                continue
+            existing_cols = {
+                row[1] for row in conn.execute(
+                    text(f"PRAGMA table_info({table})")
+                ).fetchall()
+            }
+            for col, col_type in columns.items():
+                if col not in existing_cols:
+                    conn.execute(text(f"ALTER TABLE {table} ADD COLUMN {col} {col_type}"))
+                    logger.info(f"Migration: added {table}.{col}")
+        conn.commit()
+
+_migrate()
+
 app = FastAPI(title="Scoop Backend V2", description="Confidence-calibrated, evidence-based decision-support system.")
+
+app.mount("/static", StaticFiles(directory="."), name="static")
+templates = Jinja2Templates(directory=".")
+
+@app.get("/", response_class=HTMLResponse)
+async def get_landing(request: Request):
+    return templates.TemplateResponse("landing/landing.html", {"request": request})
 
 @app.post("/analyze", response_model=AnalyzeResponse)
 async def analyze_claim(request: AnalyzeRequest, db: Session = Depends(get_db)):
@@ -231,5 +288,14 @@ async def get_watch_status(claim_id: str, db: Session = Depends(get_db)):
     )
 
 if __name__ == "__main__":
+    import os
+    import signal
+    import sys
     import uvicorn
+
+    def handle_exit(signum, frame):
+        os.killpg(os.getpgid(os.getpid()), signal.SIGTERM)
+        sys.exit(0)
+
+    signal.signal(signal.SIGINT, handle_exit)
     uvicorn.run("main:app", host="0.0.0.0", port=8000, reload=True)

@@ -4,3 +4,4 @@ architecture.md
 .venv
 __pycache__
 **.db
+design.md
