@@ -1,7 +1,8 @@
 .env
-context.md
+video
 architecture.md
 .venv
 __pycache__
 **.db
-design.md
+.claude
+skills-lock.json

@@ -1,108 +1,181 @@
 document.addEventListener('DOMContentLoaded', () => {
     const claimInput = document.getElementById('claim-input');
     const analyzeBtn = document.getElementById('analyze-btn');
-    const resultsSection = document.getElementById('results-section');
-    const loader = document.getElementById('analysis-loader');
+    const messageBox = document.getElementById('preview-message');
+    const messageText = document.getElementById('preview-message-text');
+    const progressBox = document.getElementById('preview-progress');
+    const progressStage = document.getElementById('progress-stage');
+    const progressPct = document.getElementById('progress-pct');
+    const progressBar = document.getElementById('progress-bar');
+    const resultsBox = document.getElementById('preview-results');
 
     if (!analyzeBtn || !claimInput) return;
 
-    analyzeBtn.addEventListener('click', async () => {
+    const stages = [
+        { pct: 12, label: 'Validating your question' },
+        { pct: 38, label: 'Reading emotional framing' },
+        { pct: 62, label: 'Checking context integrity' },
+        { pct: 84, label: 'Fingerprinting the claim' }
+    ];
+
+    let stageTimer = null;
+
+    function startProgress() {
+        messageBox.classList.remove('active');
+        resultsBox.classList.remove('active');
+        progressBox.classList.add('active');
+
+        let index = 0;
+        setProgress(stages[0].pct, stages[0].label);
+
+        stageTimer = setInterval(() => {
+            index += 1;
+            if (index >= stages.length) {
+                clearInterval(stageTimer);
+                return;
+            }
+            setProgress(stages[index].pct, stages[index].label);
+        }, 900);
+    }
+
+    function setProgress(pct, label) {
+        progressBar.style.width = pct + '%';
+        progressPct.textContent = pct + '%';
+        if (label) progressStage.textContent = label;
+    }
+
+    function finishProgress(callback) {
+        if (stageTimer) clearInterval(stageTimer);
+        setProgress(100, 'Report ready');
+        setTimeout(() => {
+            progressBox.classList.remove('active');
+            setProgress(0, stages[0].label);
+            callback();
+        }, 450);
+    }
+
+    function showMessage(text) {
+        if (stageTimer) clearInterval(stageTimer);
+        progressBox.classList.remove('active');
+        resultsBox.classList.remove('active');
+        messageText.textContent = text;
+        messageBox.classList.add('active');
+    }
+
+    async function runAnalysis() {
         const claimText = claimInput.value.trim();
-        if (!claimText) return;
+        if (!claimText) {
+            showMessage('Please enter a real claim or question we can analyze.');
+            return;
+        }
 
         analyzeBtn.disabled = true;
-        loader.classList.add('active');
-        if (resultsSection) resultsSection.classList.remove('active');
+        startProgress();
 
         try {
-            const response = await fetch('/analyze', {
+            const response = await fetch('/landing/analyze', {
                 method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
+                headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ claim: claimText })
             });
 
-            if (!response.ok) {
-                throw new Error('Analysis failed');
-            }
+            if (!response.ok) throw new Error('Request failed');
 
             const data = await response.json();
-            renderResults(data);
+
+            if (!data.valid) {
+                showMessage(data.message || 'Please enter a real claim or question we can analyze.');
+                return;
+            }
+
+            finishProgress(() => renderPreview(data));
         } catch (error) {
-            alert('An error occurred during evidence analysis.');
+            showMessage('Something went wrong while reading that claim. Please try again.');
         } finally {
             analyzeBtn.disabled = false;
-            loader.classList.remove('active');
         }
+    }
+
+    analyzeBtn.addEventListener('click', runAnalysis);
+    claimInput.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter') runAnalysis();
     });
 
-    function renderResults(data) {
-        if (!resultsSection) return;
-        resultsSection.classList.add('active');
-        resultsSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    function renderPreview(data) {
+        document.getElementById('preview-claim-text').textContent = data.claim || '';
 
-        animateScore('confidence-score-val', 0, Math.round(data.confidence?.score || 0));
-        animateScore('integrity-score-val', 0, Math.round(data.context_integrity?.integrity_score || 0));
+        const manip = data.emotional_manipulation || {};
+        setFraming('framing-fear', normalize(manip.fear));
+        setFraming('framing-anger', normalize(manip.anger));
+        setFraming('framing-outrage', normalize(manip.outrage));
 
-        const manipulationData = data.emotional_manipulation || {};
-        updateBar('bar-fear', Math.round(manipulationData.fear || 0));
-        updateBar('bar-anger', Math.round(manipulationData.anger || 0));
-        updateBar('bar-outrage', Math.round(manipulationData.outrage || 0));
+        const integrity = data.context_integrity || {};
+        const integrityScore = Math.round(normalizeScore(integrity.integrity_score));
+        animateScore('integrity-score-val', 0, integrityScore);
+        renderFlags(integrity);
 
-        const passportList = document.getElementById('passport-sources-list');
-        if (passportList) {
-            passportList.innerHTML = '';
-            const sources = data.trust_passport?.sources || [];
-            if (sources.length === 0) {
-                passportList.innerHTML = '<div class="passport-empty">No source passports identified.</div>';
-            } else {
-                sources.forEach(src => {
-                    const item = document.createElement('div');
-                    item.className = 'passport-item';
-                    item.innerHTML = `
-                        <div class="passport-header">
-                            <span class="passport-source-name">${src.domain || 'Unknown Publisher'}</span>
-                            <span class="passport-badge">${src.reliability_label || 'Unverified'}</span>
-                        </div>
-                        <div class="passport-metrics">
-                            <div class="passport-metric">
-                                <span class="metric-lbl">Authority</span>
-                                <span class="metric-val">${Math.round((src.authority_score || 0) * 100)}%</span>
-                            </div>
-                            <div class="passport-metric">
-                                <span class="metric-lbl">Transparency</span>
-                                <span class="metric-val">${Math.round((src.transparency_score || 0) * 100)}%</span>
-                            </div>
-                        </div>
-                    `;
-                    passportList.appendChild(item);
-                });
-            }
+        const dna = data.information_dna || {};
+        document.getElementById('dna-canonical').textContent =
+            dna.canonical_form || data.claim || 'No canonical form generated.';
+        const fp = dna.fingerprint || '';
+        document.getElementById('dna-fingerprint').textContent =
+            fp ? 'Fingerprint ' + fp : 'No fingerprint generated.';
+
+        resultsBox.classList.add('active');
+    }
+
+    function setFraming(id, val) {
+        const bar = document.getElementById(id);
+        const label = document.getElementById(id + '-val');
+        if (bar) {
+            requestAnimationFrame(() => { bar.style.width = val + '%'; });
         }
+        if (label) label.textContent = val + '%';
+    }
 
-        const judgeRuling = document.getElementById('judge-ruling-text');
-        if (judgeRuling) {
-            judgeRuling.textContent = data.reasoning?.judge?.ruling || 'No courtroom ruling available.';
-        }
+    function renderFlags(integrity) {
+        const list = document.getElementById('integrity-flags');
+        list.innerHTML = '';
 
-        const prosecutorCase = document.getElementById('prosecutor-case-text');
-        if (prosecutorCase) {
-            prosecutorCase.textContent = data.reasoning?.prosecutor?.argument || 'No prosecutor case built.';
-        }
+        const checks = [
+            { keys: ['missing_date', 'is_temporally_misleading'], risk: 'Date missing', clear: 'Date present' },
+            { keys: ['missing_source'], risk: 'Source unknown', clear: 'Source identified' },
+            { keys: ['selective_quotation', 'is_selectively_edited', 'is_misquoted'], risk: 'Selective quoting', clear: 'Wording consistent' },
+            { keys: ['cropped_context', 'is_decontextualized'], risk: 'Cropped context', clear: 'Context preserved' }
+        ];
 
-        const defenseCase = document.getElementById('defense-case-text');
-        if (defenseCase) {
-            defenseCase.textContent = data.reasoning?.defense?.argument || 'No defense case built.';
-        }
+        checks.forEach(check => {
+            const flagged = check.keys.some(key => Boolean(integrity[key]));
+            const li = document.createElement('li');
+            li.className = flagged ? 'flag-risk' : 'flag-clear';
+            li.textContent = flagged ? check.risk : check.clear;
+            list.appendChild(li);
+        });
+    }
+
+    function normalize(value) {
+        const num = Number(value) || 0;
+        const scaled = num <= 1 ? num * 100 : num;
+        return Math.max(0, Math.min(100, Math.round(scaled)));
+    }
+
+    function normalizeScore(value) {
+        const num = Number(value);
+        if (Number.isNaN(num)) return 0;
+        const scaled = num <= 1 ? num * 100 : num;
+        return Math.max(0, Math.min(100, scaled));
     }
 
     function animateScore(id, start, end) {
         const el = document.getElementById(id);
         if (!el) return;
+        if (end <= start) {
+            el.textContent = end;
+            return;
+        }
         let current = start;
-        const duration = 1000;
-        const stepTime = Math.abs(Math.floor(duration / (end - start + 1)));
+        const duration = 900;
+        const stepTime = Math.max(12, Math.floor(duration / (end - start)));
         const timer = setInterval(() => {
             current += 1;
             el.textContent = current;
@@ -110,13 +183,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 el.textContent = end;
                 clearInterval(timer);
             }
-        }, stepTime || 15);
-    }
-
-    function updateBar(id, val) {
-        const el = document.getElementById(id);
-        const text = document.getElementById(id + '-val');
-        if (el) el.style.width = val + '%';
-        if (text) text.textContent = val + '%';
+        }, stepTime);
     }
 });

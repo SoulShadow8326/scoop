@@ -1,0 +1,134 @@
+.verdict-card {
+    display: flex;
+    gap: 40px;
+    align-items: stretch;
+}
+
+.verdict-score-block {
+    flex: none;
+    width: 220px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    padding: 12px 0;
+    border-right: 1px solid rgba(12, 12, 12, 0.08);
+}
+
+.verdict-score-ring {
+    width: 168px;
+    height: 168px;
+    border-radius: 50%;
+    border: 2px solid rgba(71, 89, 228, 0.18);
+    background: rgba(71, 89, 228, 0.04);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.verdict-score {
+    font-size: 60px;
+    font-weight: 700;
+    line-height: 1;
+    color: #4759E4;
+    letter-spacing: -2px;
+    font-variant-numeric: tabular-nums;
+}
+
+.verdict-score-unit {
+    font-size: 13px;
+    font-weight: 500;
+    color: rgba(12, 12, 12, 0.5);
+    margin-top: 8px;
+    letter-spacing: 0.5px;
+}
+
+.verdict-band {
+    font-size: 14px;
+    font-weight: 600;
+    color: #0C0C0C;
+    padding: 6px 16px;
+    border-radius: 999px;
+    background: rgba(71, 89, 228, 0.08);
+}
+
+.verdict-band.band-low {
+    color: #c4222b;
+    background: rgba(238, 47, 57, 0.08);
+}
+
+.verdict-band.band-moderate {
+    color: #9a6b00;
+    background: rgba(214, 158, 46, 0.12);
+}
+
+.verdict-band.band-high {
+    color: #2f6b3a;
+    background: rgba(47, 138, 71, 0.12);
+}
+
+.verdict-detail {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.verdict-eyebrow {
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 1.2px;
+    text-transform: uppercase;
+    color: rgba(71, 89, 228, 0.85);
+    margin-bottom: 8px;
+}
+
+.verdict-claim {
+    font-size: 22px;
+    font-weight: 600;
+    line-height: 1.4;
+    color: #0C0C0C;
+    margin: 0 0 16px 0;
+    letter-spacing: -0.4px;
+}
+
+.verdict-chips {
+    margin-bottom: 18px;
+}
+
+.verdict-ruling {
+    font-size: 15px;
+    line-height: 1.65;
+    color: rgba(12, 12, 12, 0.7);
+    margin: 0 0 16px 0;
+}
+
+.verdict-action {
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 1.55;
+    color: #0C0C0C;
+    padding: 14px 18px;
+    border-radius: 10px;
+    background: rgba(71, 89, 228, 0.06);
+    border-left: 3px solid #4759E4;
+}
+
+.verdict-action:empty {
+    display: none;
+}
+
+@media (max-width: 880px) {
+    .verdict-card {
+        flex-direction: column;
+        gap: 24px;
+    }
+    .verdict-score-block {
+        width: 100%;
+        border-right: none;
+        border-bottom: 1px solid rgba(12, 12, 12, 0.08);
+        padding-bottom: 24px;
+    }
+}

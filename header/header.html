@@ -4,10 +4,10 @@
             <img src="/static/assets/logo.svg" alt="Scoop Logo" class="header-logo-img">
         </a>
         <nav class="header-nav">
-            <a href="/" class="nav-link active">Home</a>
-            <a href="#features" class="nav-link">How It Works</a>
-            <a href="#results-section" class="nav-link">Sources</a>
-            <a href="#claim-input" class="btn-analyze">Analyze</a>
+            <a href="/" class="nav-link {{ 'active' if active == 'home' else '' }}">Home</a>
+            <a href="/#features" class="nav-link">How It Works</a>
+            <a href="/app" class="nav-link {{ 'active' if active == 'app' else '' }}">Full Report</a>
+            <a href="/#claim-input" class="btn-analyze">Analyze</a>
         </nav>
     </div>
 </header>

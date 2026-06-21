@@ -1,0 +1,38 @@
+.rec-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    counter-reset: rec;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+.rec-list li {
+    counter-increment: rec;
+    position: relative;
+    font-size: 15px;
+    line-height: 1.6;
+    color: rgba(12, 12, 12, 0.78);
+    padding: 16px 20px 16px 56px;
+    border-radius: 12px;
+    background: rgba(71, 89, 228, 0.04);
+    border: 1px solid rgba(71, 89, 228, 0.1);
+}
+
+.rec-list li::before {
+    content: counter(rec);
+    position: absolute;
+    left: 18px;
+    top: 16px;
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    background: #4759E4;
+    color: #F3F3F9;
+    font-size: 13px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}

@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Scoop | Full Report</title>
+    <meta
+      name="description"
+      content="Run a full evidence, lineage, context, and reasoning analysis on a community claim."
+    />
+    <script>
+      try {
+        if (localStorage.getItem("scoop_onboarded") !== "true") {
+          window.location.replace("/login");
+        }
+      } catch (e) {}
+    </script>
+    <link rel="icon" type="image/svg+xml" href="/static/assets/logo.svg" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/static/assets/vendor/driver.css" />
+    <link rel="stylesheet" href="/static/landing/landing.css" />
+    <link rel="stylesheet" href="/static/header/header.css" />
+    <link rel="stylesheet" href="/static/app/app.css" />
+    <link rel="stylesheet" href="/static/app/answer/answer.css" />
+    <link rel="stylesheet" href="/static/app/confidence/confidence.css" />
+    <link rel="stylesheet" href="/static/app/manipulation/manipulation.css" />
+    <link rel="stylesheet" href="/static/app/integrity/integrity.css" />
+    <link rel="stylesheet" href="/static/app/dna/dna.css" />
+    <link rel="stylesheet" href="/static/app/sources/sources.css" />
+    <link rel="stylesheet" href="/static/app/citation/citation.css" />
+    <link rel="stylesheet" href="/static/app/courtroom/courtroom.css" />
+    <link
+      rel="stylesheet"
+      href="/static/app/recommendations/recommendations.css"
+    />
+    <link rel="stylesheet" href="/static/app/tour/tour.css" />
+    <link rel="stylesheet" href="/static/footer/footer.css" />
+  </head>
+  <body>
+    {% include "header/header.html" %}
+    <main class="app-main">
+      <section class="app-intro">
+        <span class="app-eyebrow" id="app-eyebrow">Full Report</span>
+        <h1 class="app-headline">
+          The complete <span class="highlight-purple">evidence</span> read.
+        </h1>
+        <p class="app-lead">
+          Run the full pipeline on a claim. Scoop traces its lineage, profiles
+          every source, weighs the evidence in an adversarial courtroom, and
+          returns a calibrated confidence, never a verdict of truth.
+        </p>
+        <div class="app-input-panel">
+          <input
+            type="text"
+            id="claim-input"
+            class="app-input-box"
+            placeholder="Is it true that Scholarship incentives have been getting lowered?"
+            autocomplete="off"
+          />
+          <button id="analyze-btn" class="app-analyze-btn">
+            Run full analysis
+          </button>
+        </div>
+        <div class="app-intro-meta">
+          <span class="app-input-hint"
+            >A full report runs every engine and can take a moment.</span
+          >
+          <button type="button" id="tour-btn" class="app-tour-btn">
+            Take a tour
+          </button>
+        </div>
+      </section>
+
+      <div id="app-message" class="app-message" role="alert">
+        <span class="app-message-mark"></span>
+        <span id="app-message-text" class="app-message-text"></span>
+      </div>
+
+      <div id="app-progress" class="app-progress" aria-hidden="true">
+        <div class="app-progress-head">
+          <span class="app-progress-stage-wrap">
+            <span id="progress-stage" class="app-progress-stage"
+              >Validating your question</span
+            >
+            <span id="progress-dots" class="progress-dots" aria-hidden="true"
+              ><i></i><i></i><i></i
+            ></span>
+          </span>
+          <span id="progress-pct" class="app-progress-pct">0%</span>
+        </div>
+        <div class="app-progress-track">
+          <div id="progress-bar" class="app-progress-bar"></div>
+        </div>
+      </div>
+
+      <div id="report" class="report">
+        {% include "app/answer/answer.html" %}
+        <div class="report-details">
+          <button type="button" id="details-toggle" class="details-toggle">
+            <span class="details-toggle-text">Show the full breakdown</span>
+            <span class="details-toggle-caret"></span>
+          </button>
+          <div id="details-body" class="details-body">
+            <div class="report-grid">
+              {% include "app/confidence/confidence.html" %}
+              {% include "app/manipulation/manipulation.html" %}
+              {% include "app/integrity/integrity.html" %}
+              {% include "app/dna/dna.html" %}
+            </div>
+            {% include "app/sources/sources.html" %}
+            {% include "app/citation/citation.html" %}
+            {% include "app/courtroom/courtroom.html" %}
+            {% include "app/recommendations/recommendations.html" %}
+          </div>
+        </div>
+      </div>
+    </main>
+    {% include "footer/footer.html" %}
+    <script src="/static/assets/vendor/driver.js.iife.js"></script>
+    <script src="/static/app/tour/tour.js"></script>
+    <script src="/static/app/app.js"></script>
+  </body>
+</html>

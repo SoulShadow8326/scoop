@@ -1,0 +1,82 @@
+<div id="preview-zone" class="preview-zone">
+    <div id="preview-message" class="preview-message" role="alert">
+        <span class="preview-message-mark"></span>
+        <span id="preview-message-text" class="preview-message-text"></span>
+    </div>
+
+    <div id="preview-progress" class="preview-progress" aria-hidden="true">
+        <div class="progress-head">
+            <span id="progress-stage" class="progress-stage">Validating your question</span>
+            <span id="progress-pct" class="progress-pct">0%</span>
+        </div>
+        <div class="progress-track">
+            <div id="progress-bar" class="progress-bar"></div>
+        </div>
+    </div>
+
+    <div id="preview-results" class="preview-results">
+        <div class="preview-claim-row">
+            <span class="preview-claim-label">Reading</span>
+            <span id="preview-claim-text" class="preview-claim-text"></span>
+        </div>
+
+        <div class="preview-grid">
+            <article class="preview-card framing-card">
+                <span class="preview-card-meta">Forensic Linguistics</span>
+                <h3 class="preview-card-title">Emotional Framing</h3>
+                <div class="framing-bars">
+                    <div class="framing-bar">
+                        <div class="framing-bar-head">
+                            <span class="framing-label">Fear</span>
+                            <span id="framing-fear-val" class="framing-value">0%</span>
+                        </div>
+                        <div class="framing-track"><div id="framing-fear" class="framing-fill"></div></div>
+                    </div>
+                    <div class="framing-bar">
+                        <div class="framing-bar-head">
+                            <span class="framing-label">Anger</span>
+                            <span id="framing-anger-val" class="framing-value">0%</span>
+                        </div>
+                        <div class="framing-track"><div id="framing-anger" class="framing-fill"></div></div>
+                    </div>
+                    <div class="framing-bar">
+                        <div class="framing-bar-head">
+                            <span class="framing-label">Outrage</span>
+                            <span id="framing-outrage-val" class="framing-value">0%</span>
+                        </div>
+                        <div class="framing-track"><div id="framing-outrage" class="framing-fill"></div></div>
+                    </div>
+                </div>
+            </article>
+
+            <article class="preview-card integrity-card">
+                <span class="preview-card-meta">Structural Metadata</span>
+                <h3 class="preview-card-title">Context Integrity</h3>
+                <div class="integrity-score-row">
+                    <span id="integrity-score-val" class="integrity-score">0</span>
+                    <span class="integrity-score-pct">%</span>
+                </div>
+                <ul id="integrity-flags" class="integrity-flags"></ul>
+            </article>
+
+            <article class="preview-card dna-card">
+                <span class="preview-card-meta">Information Lineage</span>
+                <h3 class="preview-card-title">Information DNA</h3>
+                <p class="dna-field-label">Canonical claim</p>
+                <p id="dna-canonical" class="dna-canonical"></p>
+                <div class="dna-fingerprint-row">
+                    <span class="dna-node"></span>
+                    <span id="dna-fingerprint" class="dna-fingerprint"></span>
+                </div>
+            </article>
+        </div>
+
+        <div class="preview-cta">
+            <div class="preview-cta-copy">
+                <span class="cta-eyebrow">This is a first read</span>
+                <p class="cta-line">Trace the full evidence chain with Citation Graphs, Trust Passports, and multi-agent Courtroom Reasoning.</p>
+            </div>
+            <a id="preview-cta-btn" href="/app" class="cta-button">Open the full report</a>
+        </div>
+    </div>
+</div>

@@ -5,10 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Scoop | Landing</title>
     <meta name="description" content="An information intelligence platform analyzing evidence, trust lineage, context integrity, and emotional framing of community claims.">
+    <link rel="icon" type="image/svg+xml" href="/static/assets/logo.svg">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="/static/landing/landing.css">
     <link rel="stylesheet" href="/static/header/header.css">
     <link rel="stylesheet" href="/static/landing/hero/hero.css">
+    <link rel="stylesheet" href="/static/landing/preview/preview.css">
     <link rel="stylesheet" href="/static/landing/features/features.css">
     <link rel="stylesheet" href="/static/footer/footer.css">
 </head>
@@ -19,6 +21,8 @@
         {% include "landing/features/features.html" %}
     </main>
     {% include "footer/footer.html" %}
+    <script src="/static/assets/vendor/anime.umd.min.js"></script>
+    <script src="/static/landing/hero/hero.js"></script>
     <script src="/static/landing/landing.js"></script>
 </body>
 </html>

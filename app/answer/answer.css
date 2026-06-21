@@ -1,0 +1,155 @@
+.answer-card {
+    padding: 30px 32px;
+}
+
+.answer-head {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding-bottom: 22px;
+    margin-bottom: 22px;
+    border-bottom: 1px solid rgba(12, 12, 12, 0.07);
+}
+
+.answer-avatar {
+    flex: none;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: #4759E4;
+    position: relative;
+}
+
+.answer-avatar::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: #F3F3F9;
+    box-shadow: 0 0 0 3px rgba(243, 243, 249, 0.25);
+}
+
+.answer-id {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    min-width: 0;
+    flex: 1;
+}
+
+.answer-name {
+    font-size: 15px;
+    font-weight: 600;
+    color: #0C0C0C;
+}
+
+.answer-claim {
+    font-size: 13px;
+    color: rgba(12, 12, 12, 0.5);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.answer-confidence {
+    flex: none;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    line-height: 1;
+}
+
+.answer-conf-num {
+    font-size: 32px;
+    font-weight: 700;
+    letter-spacing: -1px;
+    color: #4759E4;
+    font-variant-numeric: tabular-nums;
+}
+
+.answer-conf-band {
+    font-size: 12px;
+    font-weight: 500;
+    color: rgba(12, 12, 12, 0.5);
+    margin-top: 4px;
+}
+
+.answer-conf-band.band-low {
+    color: #c4222b;
+}
+
+.answer-conf-band.band-moderate {
+    color: #9a6b00;
+}
+
+.answer-conf-band.band-high {
+    color: #2f6b3a;
+}
+
+.answer-body {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.answer-line {
+    font-size: 17px;
+    line-height: 1.62;
+    color: #0C0C0C;
+    margin: 0;
+}
+
+.answer-line.answer-line-muted {
+    font-size: 15.5px;
+    color: rgba(12, 12, 12, 0.66);
+}
+
+.answer-flags {
+    margin-top: 18px;
+}
+
+.answer-flags:empty {
+    display: none;
+}
+
+.answer-action {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    margin-top: 20px;
+    padding: 16px 18px;
+    border-radius: 12px;
+    background: rgba(71, 89, 228, 0.06);
+    border-left: 3px solid #4759E4;
+}
+
+.answer-action:empty {
+    display: none;
+}
+
+.answer-action-label {
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    color: rgba(71, 89, 228, 0.9);
+}
+
+.answer-action-text {
+    font-size: 15.5px;
+    line-height: 1.55;
+    color: #0C0C0C;
+}
+
+@media (max-width: 560px) {
+    .answer-card {
+        padding: 24px 22px;
+    }
+    .answer-line {
+        font-size: 16px;
+    }
+}

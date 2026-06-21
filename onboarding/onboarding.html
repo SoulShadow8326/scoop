@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scoop | Set Up</title>
+    <link rel="icon" type="image/svg+xml" href="/static/assets/logo.svg">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/landing/landing.css">
+    <link rel="stylesheet" href="/static/onboarding/onboarding.css">
+</head>
+<body>
+    <main class="onb-main">
+        <a href="/" class="onb-logo">Scoop<span class="onb-logo-dot"></span></a>
+
+        <div class="onb-card">
+            <div class="onb-progress">
+                <div class="onb-progress-head">
+                    <span id="onb-step-label" class="onb-step-label">Step 1 of 3</span>
+                    <span id="onb-step-name" class="onb-step-name">Your role</span>
+                </div>
+                <div class="onb-progress-track"><div id="onb-progress-bar" class="onb-progress-bar"></div></div>
+            </div>
+
+            <section class="onb-step" data-step="1">
+                <h1 class="onb-title">Who are you on Scoop?</h1>
+                <p class="onb-sub">We tune how reports read for your point of view.</p>
+                <div class="onb-options" id="role-options">
+                    <button type="button" class="onb-option" data-value="Student">
+                        <span class="onb-option-title">Student</span>
+                        <span class="onb-option-desc">Navigating rumors about school policies or safety.</span>
+                    </button>
+                    <button type="button" class="onb-option" data-value="Parent or Caregiver">
+                        <span class="onb-option-title">Parent or Caregiver</span>
+                        <span class="onb-option-desc">Reacting to community panic on social media.</span>
+                    </button>
+                    <button type="button" class="onb-option" data-value="Local Journalist">
+                        <span class="onb-option-title">Local Journalist</span>
+                        <span class="onb-option-desc">Tracking the origin of community claims.</span>
+                    </button>
+                    <button type="button" class="onb-option" data-value="School Administrator">
+                        <span class="onb-option-title">School Administrator</span>
+                        <span class="onb-option-desc">Understanding how a narrative is spreading.</span>
+                    </button>
+                </div>
+            </section>
+
+            <section class="onb-step" data-step="2" hidden>
+                <h1 class="onb-title">Where are you based?</h1>
+                <p class="onb-sub">Add your school or community. Optional, and you can skip it.</p>
+                <label class="onb-field">
+                    <span class="onb-label">Institution</span>
+                    <input type="text" id="onb-institution" class="onb-input" placeholder="Lincoln High School" autocomplete="organization">
+                </label>
+                <label class="onb-field">
+                    <span class="onb-label">Community or district</span>
+                    <input type="text" id="onb-community" class="onb-input" placeholder="Riverside County" autocomplete="off">
+                </label>
+            </section>
+
+            <section class="onb-step" data-step="3" hidden>
+                <h1 class="onb-title">What do you want to track?</h1>
+                <p class="onb-sub">Pick anything that fits. This shapes the claims Scoop surfaces.</p>
+                <div class="onb-chips" id="interest-chips">
+                    <button type="button" class="onb-chip" data-value="School safety">School safety</button>
+                    <button type="button" class="onb-chip" data-value="Policy changes">Policy changes</button>
+                    <button type="button" class="onb-chip" data-value="Local news">Local news</button>
+                    <button type="button" class="onb-chip" data-value="Health alerts">Health alerts</button>
+                    <button type="button" class="onb-chip" data-value="Event schedules">Event schedules</button>
+                    <button type="button" class="onb-chip" data-value="Viral rumors">Viral rumors</button>
+                </div>
+            </section>
+
+            <div class="onb-actions">
+                <button type="button" class="onb-back" id="onb-back" hidden>Back</button>
+                <span class="onb-spacer"></span>
+                <button type="button" class="onb-skip" id="onb-skip">Skip</button>
+                <button type="button" class="onb-next" id="onb-next" disabled>Continue</button>
+            </div>
+        </div>
+    </main>
+    <script src="/static/onboarding/onboarding.js"></script>
+</body>
+</html>

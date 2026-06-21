@@ -1,0 +1,11 @@
+.confidence-metrics {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px 28px;
+}
+
+@media (max-width: 520px) {
+    .confidence-metrics {
+        grid-template-columns: 1fr;
+    }
+}

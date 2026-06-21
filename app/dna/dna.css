@@ -1,0 +1,44 @@
+.dna-field-label {
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.4px;
+    text-transform: uppercase;
+    color: rgba(12, 12, 12, 0.45);
+    margin: 0 0 8px 0;
+}
+
+.dna-canonical {
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 1.55;
+    color: #0C0C0C;
+    margin: 0 0 18px 0;
+}
+
+.dna-fingerprint-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 14px;
+    border-radius: 10px;
+    background: rgba(12, 12, 12, 0.03);
+    border: 1px solid rgba(12, 12, 12, 0.06);
+    margin-bottom: 22px;
+}
+
+.dna-node {
+    flex: none;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: #4759E4;
+    box-shadow: 0 0 0 4px rgba(71, 89, 228, 0.12);
+}
+
+.dna-fingerprint {
+    font-family: 'Poppins', monospace;
+    font-size: 13px;
+    font-weight: 500;
+    color: rgba(12, 12, 12, 0.7);
+    word-break: break-all;
+}

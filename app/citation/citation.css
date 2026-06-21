@@ -1,0 +1,76 @@
+.citation-body {
+    width: 100%;
+}
+
+.citation-graph {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+.citation-node-label {
+    font-family: 'Poppins', sans-serif;
+    font-size: 12px;
+    font-weight: 500;
+    fill: #0C0C0C;
+}
+
+.citation-verify {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 20px;
+    padding: 14px 18px;
+    border-radius: 10px;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.citation-verify.verified {
+    background: rgba(47, 138, 71, 0.1);
+    color: #2f6b3a;
+}
+
+.citation-verify.unverified {
+    background: rgba(238, 47, 57, 0.07);
+    color: #c4222b;
+}
+
+.citation-verify-dot {
+    flex: none;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: currentColor;
+}
+
+.citation-lineage {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    margin-bottom: 8px;
+}
+
+.citation-lineage-row {
+    display: flex;
+    gap: 14px;
+    align-items: flex-start;
+}
+
+.citation-lineage-label {
+    flex: none;
+    width: 130px;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.3px;
+    text-transform: uppercase;
+    color: rgba(12, 12, 12, 0.45);
+    padding-top: 3px;
+}
+
+.citation-lineage-value {
+    flex: 1;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}

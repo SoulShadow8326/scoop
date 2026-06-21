@@ -1,5 +1,5 @@
 from fastapi import FastAPI, HTTPException, Depends, Request
-from fastapi.responses import HTMLResponse
+from fastapi.responses import HTMLResponse, FileResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 from sqlalchemy import text
@@ -14,10 +14,12 @@ from models.domain import (
     ConfidenceHistory, SourcePassport, CitationNode
 )
 from models.schemas import (
-    AnalyzeRequest, AnalyzeResponse, FeedbackRequest, 
-    ClaimResponse, WatchRequest, WatchResponse
+    AnalyzeRequest, AnalyzeResponse, FeedbackRequest,
+    ClaimResponse, WatchRequest, WatchResponse,
+    LandingAnalyzeRequest, LandingAnalyzeResponse
 )
 from agents.graph import app_graph
+from agents.landing import validate_claim, preview_analysis
 
 Base.metadata.create_all(bind=engine)
 
@@ -72,9 +74,50 @@ app = FastAPI(title="Scoop Backend V2", description="Confidence-calibrated, evid
 app.mount("/static", StaticFiles(directory="."), name="static")
 templates = Jinja2Templates(directory=".")
 
+@app.get("/favicon.ico", include_in_schema=False)
+async def favicon():
+    return FileResponse("assets/logo.svg", media_type="image/svg+xml")
+
 @app.get("/", response_class=HTMLResponse)
 async def get_landing(request: Request):
-    return templates.TemplateResponse("landing/landing.html", {"request": request})
+    return templates.TemplateResponse("landing/landing.html", {"request": request, "active": "home"})
+
+@app.get("/login", response_class=HTMLResponse)
+async def get_login(request: Request):
+    return templates.TemplateResponse("auth/auth.html", {"request": request})
+
+@app.get("/onboarding", response_class=HTMLResponse)
+async def get_onboarding(request: Request):
+    return templates.TemplateResponse("onboarding/onboarding.html", {"request": request})
+
+@app.get("/app", response_class=HTMLResponse)
+async def get_app(request: Request):
+    return templates.TemplateResponse("app/app.html", {"request": request, "active": "app"})
+
+@app.post("/landing/analyze", response_model=LandingAnalyzeResponse)
+async def landing_analyze(request: LandingAnalyzeRequest):
+    claim = (request.claim or "").strip()
+
+    verdict = validate_claim(claim)
+    if not verdict.get("valid"):
+        return LandingAnalyzeResponse(
+            valid=False,
+            message=verdict.get("reason") or "Please enter a real claim or question we can analyze.",
+        )
+
+    try:
+        preview = preview_analysis(claim)
+    except Exception as e:
+        logger.error(f"Landing preview failed: {e}")
+        raise HTTPException(status_code=500, detail="Preview analysis failed")
+
+    return LandingAnalyzeResponse(
+        valid=True,
+        claim=claim,
+        information_dna=preview.get("information_dna", {}),
+        emotional_manipulation=preview.get("emotional_manipulation", {}),
+        context_integrity=preview.get("context_integrity", {}),
+    )
 
 @app.post("/analyze", response_model=AnalyzeResponse)
 async def analyze_claim(request: AnalyzeRequest, db: Session = Depends(get_db)):

@@ -1,22 +1,33 @@
 .features-section {
     max-width: 1200px;
     margin: 0 auto;
-    padding: 80px 24px;
+    padding: 40px 24px 96px 24px;
     box-sizing: border-box;
 }
 
 .features-header {
     text-align: center;
-    margin-bottom: 64px;
+    margin-bottom: 56px;
+}
+
+.features-eyebrow {
+    display: inline-block;
+    font-family: 'Poppins', sans-serif;
+    font-size: 12px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    color: #4759E4;
+    margin-bottom: 16px;
 }
 
 .features-title {
     font-family: 'Poppins', sans-serif;
-    font-size: 36px;
+    font-size: 40px;
     font-weight: 700;
     color: #0C0C0C;
     margin: 0 0 16px 0;
-    letter-spacing: -0.5px;
+    letter-spacing: -0.8px;
 }
 
 .features-desc {
@@ -24,14 +35,14 @@
     font-size: 16px;
     line-height: 1.6;
     color: rgba(12, 12, 12, 0.6);
-    max-width: 700px;
+    max-width: 620px;
     margin: 0 auto;
 }
 
 .features-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 32px;
+    gap: 20px;
 }
 
 .feature-card {
@@ -39,29 +50,54 @@
     backdrop-filter: blur(24px);
     -webkit-backdrop-filter: blur(24px);
     border: 1px solid rgba(255, 255, 255, 0.7);
-    border-radius: 12px;
-    padding: 32px;
+    border-radius: 14px;
+    padding: 28px;
     box-sizing: border-box;
     box-shadow: 0 8px 40px rgba(0, 0, 0, 0.04);
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
 }
 
 .feature-card:hover {
     transform: translateY(-4px);
-    box-shadow: 0 12px 50px rgba(71, 89, 228, 0.06);
+    box-shadow: 0 14px 50px rgba(71, 89, 228, 0.08);
 }
 
-.feature-icon-wrap {
-    margin-bottom: 24px;
+.feature-card.is-preview {
+    border-color: rgba(71, 89, 228, 0.2);
+}
+
+.feature-top {
     display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 22px;
 }
 
 .feature-ring {
-    width: 24px;
-    height: 24px;
+    width: 22px;
+    height: 22px;
     border: 3px solid #4759E4;
     border-radius: 50%;
-    position: relative;
+}
+
+.feature-tag {
+    font-family: 'Poppins', sans-serif;
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    padding: 4px 10px;
+    border-radius: 20px;
+}
+
+.tag-preview {
+    color: #4759E4;
+    background: rgba(71, 89, 228, 0.1);
+}
+
+.tag-full {
+    color: rgba(12, 12, 12, 0.5);
+    background: rgba(12, 12, 12, 0.05);
 }
 
 .feature-name {
@@ -80,330 +116,12 @@
     margin: 0;
 }
 
-.results-wrapper {
-    display: none;
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 80px 24px;
-    box-sizing: border-box;
-    border-top: 1px solid rgba(71, 89, 228, 0.1);
-}
-
-.results-wrapper.active {
-    display: block;
-}
-
-.results-header {
-    text-align: center;
-    margin-bottom: 64px;
-}
-
-.results-title {
-    font-family: 'Poppins', sans-serif;
-    font-size: 36px;
-    font-weight: 700;
-    color: #0C0C0C;
-    margin: 0 0 16px 0;
-    letter-spacing: -0.5px;
-}
-
-.results-desc {
-    font-family: 'Poppins', sans-serif;
-    font-size: 16px;
-    line-height: 1.6;
-    color: rgba(12, 12, 12, 0.6);
-    max-width: 700px;
-    margin: 0 auto;
-}
-
-.results-dashboard-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 32px;
-    margin-bottom: 48px;
-}
-
-.dashboard-card {
-    background: rgba(255, 255, 255, 0.65);
-    backdrop-filter: blur(24px);
-    -webkit-backdrop-filter: blur(24px);
-    border: 1px solid rgba(255, 255, 255, 0.8);
-    border-radius: 12px;
-    padding: 32px;
-    box-sizing: border-box;
-    box-shadow: 0 8px 40px rgba(0, 0, 0, 0.05);
-}
-
-.card-meta {
-    font-family: 'Poppins', sans-serif;
-    font-size: 11px;
-    font-weight: 700;
-    text-transform: uppercase;
-    color: #4759E4;
-    letter-spacing: 1px;
-    display: block;
-    margin-bottom: 8px;
-}
-
-.card-title {
-    font-family: 'Poppins', sans-serif;
-    font-size: 20px;
-    font-weight: 700;
-    color: #0C0C0C;
-    margin: 0 0 24px 0;
-}
-
-.score-display {
-    display: flex;
-    align-items: baseline;
-    margin-bottom: 16px;
-}
-
-.score-number {
-    font-family: 'Poppins', sans-serif;
-    font-size: 64px;
-    font-weight: 700;
-    color: #4759E4;
-    line-height: 1;
-}
-
-.score-pct {
-    font-family: 'Poppins', sans-serif;
-    font-size: 28px;
-    font-weight: 700;
-    color: #4759E4;
-    margin-left: 4px;
-}
-
-.score-desc {
-    font-family: 'Poppins', sans-serif;
-    font-size: 13px;
-    line-height: 1.6;
-    color: rgba(12, 12, 12, 0.6);
-    margin: 0;
-}
-
-.manipulation-bars {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-}
-
-.bar-group {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-}
-
-.bar-label-row {
-    display: flex;
-    justify-content: space-between;
-}
-
-.bar-label {
-    font-family: 'Poppins', sans-serif;
-    font-size: 13px;
-    font-weight: 600;
-    color: rgba(12, 12, 12, 0.7);
-}
-
-.bar-value {
-    font-family: 'Poppins', sans-serif;
-    font-size: 13px;
-    font-weight: 700;
-    color: #EE2F39;
-}
-
-.bar-track {
-    height: 8px;
-    background-color: rgba(12, 12, 12, 0.06);
-    border-radius: 4px;
-    overflow: hidden;
-}
-
-.bar-fill {
-    height: 100%;
-    border-radius: 4px;
-    transition: width 1s ease-out;
-}
-
-.fill-red {
-    background-color: #EE2F39;
-}
-
-.sources-card {
-    grid-column: span 1;
-}
-
-@media (min-width: 900px) {
-    .sources-card {
-        grid-column: span 2;
-    }
-}
-
-.passport-list {
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
-}
-
-.passport-empty {
-    font-family: 'Poppins', sans-serif;
-    font-size: 13px;
-    color: rgba(12, 12, 12, 0.4);
-    font-style: italic;
-}
-
-.passport-item {
-    border-bottom: 1px solid rgba(12, 12, 12, 0.06);
-    padding-bottom: 12px;
-}
-
-.passport-item:last-child {
-    border-bottom: none;
-    padding-bottom: 0;
-}
-
-.passport-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 8px;
-}
-
-.passport-source-name {
-    font-family: 'Poppins', sans-serif;
-    font-size: 14px;
-    font-weight: 700;
-    color: #0C0C0C;
-}
-
-.passport-badge {
-    font-family: 'Poppins', sans-serif;
-    font-size: 11px;
-    font-weight: 600;
-    background-color: rgba(71, 89, 228, 0.08);
-    color: #4759E4;
-    padding: 2px 8px;
-    border-radius: 4px;
-}
-
-.passport-metrics {
-    display: flex;
-    gap: 24px;
-}
-
-.passport-metric {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-}
-
-.metric-lbl {
-    font-family: 'Poppins', sans-serif;
-    font-size: 12px;
-    color: rgba(12, 12, 12, 0.5);
-}
-
-.metric-val {
-    font-family: 'Poppins', sans-serif;
-    font-size: 12px;
-    font-weight: 700;
-    color: #0C0C0C;
-}
-
-.courtroom-reasoning-panel {
-    background: rgba(255, 255, 255, 0.7);
-    border: 1px solid rgba(71, 89, 228, 0.15);
-    border-radius: 12px;
-    padding: 32px;
-    box-sizing: border-box;
-    box-shadow: 0 8px 40px rgba(0, 0, 0, 0.04);
-}
-
-.panel-header {
-    margin-bottom: 32px;
-}
-
-.courtroom-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 32px;
-    margin-bottom: 32px;
-}
-
-.courtroom-column {
-    padding: 24px;
-    border-radius: 8px;
-    box-sizing: border-box;
-}
-
-.prosecutor-col {
-    background-color: rgba(238, 47, 57, 0.03);
-    border: 1px solid rgba(238, 47, 57, 0.1);
-}
-
-.defense-col {
-    background-color: rgba(71, 89, 228, 0.03);
-    border: 1px solid rgba(71, 89, 228, 0.1);
-}
-
-.adv-labelLabel {
-    font-family: 'Poppins', sans-serif;
-    font-size: 12px;
-    font-weight: 700;
-    text-transform: uppercase;
-    display: block;
-    margin-bottom: 16px;
-    letter-spacing: 0.5px;
-}
-
-.prosecutor-col .adv-labelLabel {
-    color: #EE2F39;
-}
-
-.defense-col .adv-labelLabel {
-    color: #4759E4;
-}
-
-.courtroom-text {
-    font-family: 'Poppins', sans-serif;
-    font-size: 14px;
-    line-height: 1.6;
-    color: rgba(12, 12, 12, 0.7);
-    margin: 0;
-}
-
-.courtroom-ruling {
-    background-color: #F3F3F9;
-    border-left: 4px solid #4759E4;
-    padding: 24px;
-    border-radius: 0 8px 8px 0;
-}
-
-.ruling-badge {
-    font-family: 'Poppins', sans-serif;
-    font-size: 11px;
-    font-weight: 700;
-    text-transform: uppercase;
-    color: #4759E4;
-    letter-spacing: 1px;
-    display: block;
-    margin-bottom: 8px;
-}
-
-.ruling-text {
-    font-family: 'Poppins', sans-serif;
-    font-size: 15px;
-    font-weight: 500;
-    line-height: 1.6;
-    color: #0C0C0C;
-    margin: 0;
-}
-
 @media (max-width: 900px) {
     .features-grid {
         grid-template-columns: repeat(2, 1fr);
+    }
+    .features-title {
+        font-size: 32px;
     }
 }
 
@@ -411,14 +129,7 @@
     .features-grid {
         grid-template-columns: 1fr;
     }
-
-    .features-title, .results-title {
-        font-size: 28px;
-    }
-}
-
-@media (min-width: 601px) and (max-width: 900px) {
-    .features-title, .results-title {
+    .features-title {
         font-size: 28px;
     }
 }

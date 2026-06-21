@@ -19,6 +19,17 @@ class AnalyzeResponse(BaseModel):
     confidence: Dict[str, Any]
     recommendations: List[str]
 
+class LandingAnalyzeRequest(BaseModel):
+    claim: str = Field(..., description="The claim or question to validate and preview")
+
+class LandingAnalyzeResponse(BaseModel):
+    valid: bool
+    message: Optional[str] = None
+    claim: Optional[str] = None
+    information_dna: Optional[Dict[str, Any]] = None
+    emotional_manipulation: Optional[Dict[str, Any]] = None
+    context_integrity: Optional[Dict[str, Any]] = None
+
 class FeedbackRequest(BaseModel):
     claim_id: str
     feedback: str = Field(..., description="helpful, not_helpful, misleading, report")

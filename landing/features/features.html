@@ -1,186 +1,79 @@
 <section id="features" class="features-section">
   <div class="features-header">
-    <h2 class="features-title">Structured Verification Engines</h2>
+    <span class="features-eyebrow">Inside the investigation</span>
+    <h2 class="features-title">Six engines read one claim</h2>
     <p class="features-desc">
-      Scoop runs four specialized verification nodes to analyze claims,
-      rejecting authority declarations in favor of evidence strength
-      calculations.
+      The landing preview shows the three reads that need no outside evidence.
+      The full report runs every engine and traces each conclusion back to its
+      sources.
     </p>
   </div>
   <div class="features-grid">
-    <div class="feature-card">
-      <div class="feature-icon-wrap">
+    <div class="feature-card is-preview">
+      <div class="feature-top">
         <div class="feature-ring"></div>
+        <span class="feature-tag tag-preview">In preview</span>
       </div>
-      <h3 class="feature-name">Trust Passports</h3>
+      <h3 class="feature-name">Emotional Framing</h3>
       <p class="feature-text">
-        Maintains long-term reliability and metadata profiles for news sources,
-        publishers, and community accounts based on evidence density.
+        Measures fear, anger, and outrage in the wording, surfacing language
+        engineered to bypass calm judgment.
       </p>
     </div>
-    <div class="feature-card">
-      <div class="feature-icon-wrap">
+    <div class="feature-card is-preview">
+      <div class="feature-top">
         <div class="feature-ring"></div>
-      </div>
-      <h3 class="feature-name">Citation Graphs</h3>
-      <p class="feature-text">
-        Traces narrative origin and propagation pathways to identify if a rumor
-        is independently verified or simply duplicated in an echo chamber.
-      </p>
-    </div>
-    <div class="feature-card">
-      <div class="feature-icon-wrap">
-        <div class="feature-ring"></div>
+        <span class="feature-tag tag-preview">In preview</span>
       </div>
       <h3 class="feature-name">Context Integrity</h3>
       <p class="feature-text">
-        Scans metadata and layouts to flag cropped screenshots, missing
-        timestamps, platform mismatches, and selectively edited quotes.
+        Flags missing dates, selective edits, and platform mismatches that
+        quietly change what a claim actually means.
       </p>
     </div>
-    <div class="feature-card">
-      <div class="feature-icon-wrap">
+    <div class="feature-card is-preview">
+      <div class="feature-top">
         <div class="feature-ring"></div>
-      </div>
-      <h3 class="feature-name">Emotional Manipulation</h3>
-      <p class="feature-text">
-        Measures the intensity of fear, anger, and outrage framing in text
-        designed to bypass logical reasoning and provoke community panic.
-      </p>
-    </div>
-    <div class="feature-card">
-      <div class="feature-icon-wrap">
-        <div class="feature-ring"></div>
+        <span class="feature-tag tag-preview">In preview</span>
       </div>
       <h3 class="feature-name">Information DNA</h3>
       <p class="feature-text">
-        Generates semantic fingerprints for claims, linking reposts,
-        paraphrases, screenshots, and translated variants into a single
-        traceable narrative family.
+        Reduces a claim to its canonical form and fingerprint, linking reposts,
+        paraphrases, and screenshots into one narrative family.
       </p>
     </div>
-
     <div class="feature-card">
-      <div class="feature-icon-wrap">
+      <div class="feature-top">
         <div class="feature-ring"></div>
+        <span class="feature-tag tag-full">Full report</span>
+      </div>
+      <h3 class="feature-name">Citation Graphs</h3>
+      <p class="feature-text">
+        Traces whether a rumor is independently verified or simply echoed back
+        and forth inside a closed network.
+      </p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-top">
+        <div class="feature-ring"></div>
+        <span class="feature-tag tag-full">Full report</span>
+      </div>
+      <h3 class="feature-name">Trust Passports</h3>
+      <p class="feature-text">
+        Maintains long-term reliability profiles for publishers and community
+        accounts based on evidence density, not reputation.
+      </p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-top">
+        <div class="feature-ring"></div>
+        <span class="feature-tag tag-full">Full report</span>
       </div>
       <h3 class="feature-name">Courtroom Reasoning</h3>
       <p class="feature-text">
-        Uses adversarial AI agents acting as prosecutor, defense,
-        cross-examiner, and judge to challenge assumptions before forming a
-        confidence-rated conclusion.
+        Pits a prosecutor, defense, and cross-examiner against each other so a
+        judge can weigh evidence before stating any confidence.
       </p>
-    </div>
-  </div>
-</section>
-
-<section id="results-section" class="results-wrapper">
-  <div class="results-header">
-    <h2 class="results-title">Forensic Analysis Dashboard</h2>
-    <p class="results-desc">
-      Calibration report generated by the deterministic scoring engine and
-      multi-agent courtroom evaluation.
-    </p>
-  </div>
-
-  <div class="results-dashboard-grid">
-    <div class="dashboard-card main-score-card">
-      <span class="card-meta">Deterministic Score</span>
-      <h3 class="card-title">Confidence Level</h3>
-      <div class="score-display">
-        <span id="confidence-score-val" class="score-number">0</span>
-        <span class="score-pct">%</span>
-      </div>
-      <p class="score-desc">
-        Calculated weight based on source freshness, authority, independent
-        replication, and integrity scores.
-      </p>
-    </div>
-
-    <div class="dashboard-card">
-      <span class="card-meta">Structural Metadata</span>
-      <h3 class="card-title">Context Integrity</h3>
-      <div class="score-display">
-        <span id="integrity-score-val" class="score-number">0</span>
-        <span class="score-pct">%</span>
-      </div>
-      <p class="score-desc">
-        Fidelity rating representing date validation, screenshot authenticity,
-        and message continuity.
-      </p>
-    </div>
-
-    <div class="dashboard-card">
-      <span class="card-meta">Forensic Linguistics</span>
-      <h3 class="card-title">Emotional Manipulation</h3>
-      <div class="manipulation-bars">
-        <div class="bar-group">
-          <div class="bar-label-row">
-            <span class="bar-label">Fear</span>
-            <span id="bar-fear-val" class="bar-value">0%</span>
-          </div>
-          <div class="bar-track">
-            <div
-              id="bar-fear"
-              class="bar-fill fill-red"
-              style="width: 0%"
-            ></div>
-          </div>
-        </div>
-        <div class="bar-group">
-          <div class="bar-label-row">
-            <span class="bar-label">Anger</span>
-            <span id="bar-anger-val" class="bar-value">0%</span>
-          </div>
-          <div class="bar-track">
-            <div
-              id="bar-anger"
-              class="bar-fill fill-red"
-              style="width: 0%"
-            ></div>
-          </div>
-        </div>
-        <div class="bar-group">
-          <div class="bar-label-row">
-            <span class="bar-label">Outrage</span>
-            <span id="bar-outrage-val" class="bar-value">0%</span>
-          </div>
-          <div class="bar-track">
-            <div
-              id="bar-outrage"
-              class="bar-fill fill-red"
-              style="width: 0%"
-            ></div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="dashboard-card sources-card">
-      <span class="card-meta">Publisher Registry</span>
-      <h3 class="card-title">Source Passports</h3>
-      <div id="passport-sources-list" class="passport-list"></div>
-    </div>
-  </div>
-
-  <div class="courtroom-reasoning-panel">
-    <div class="panel-header">
-      <span class="card-meta">Adversarial Evaluation</span>
-      <h3 class="card-title">Courtroom Reasoning System</h3>
-    </div>
-    <div class="courtroom-grid">
-      <div class="courtroom-column prosecutor-col">
-        <span class="adv-labelLabel">Prosecutor Argument (FALSE Case)</span>
-        <p id="prosecutor-case-text" class="courtroom-text"></p>
-      </div>
-      <div class="courtroom-column defense-col">
-        <span class="adv-labelLabel">Defense Argument (TRUE Case)</span>
-        <p id="defense-case-text" class="courtroom-text"></p>
-      </div>
-    </div>
-    <div class="courtroom-ruling">
-      <span class="ruling-badge">Judge's Epistemic Ruling</span>
-      <p id="judge-ruling-text" class="ruling-text"></p>
     </div>
   </div>
 </section>

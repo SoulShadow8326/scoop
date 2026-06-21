@@ -1,0 +1,172 @@
+.courtroom-columns {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    margin-bottom: 24px;
+}
+
+.court-col {
+    border: 1px solid rgba(12, 12, 12, 0.08);
+    border-radius: 12px;
+    padding: 18px;
+    background: rgba(255, 255, 255, 0.4);
+}
+
+.court-col-tag {
+    display: inline-block;
+    font-size: 11.5px;
+    font-weight: 600;
+    letter-spacing: 0.4px;
+    text-transform: uppercase;
+    padding: 4px 10px;
+    border-radius: 999px;
+    margin-bottom: 14px;
+}
+
+.court-tag-pros {
+    color: #c4222b;
+    background: rgba(238, 47, 57, 0.08);
+}
+
+.court-tag-def {
+    color: #2f6b3a;
+    background: rgba(47, 138, 71, 0.12);
+}
+
+.court-tag-cross {
+    color: #4759E4;
+    background: rgba(71, 89, 228, 0.08);
+}
+
+.court-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.court-list li {
+    position: relative;
+    font-size: 13.5px;
+    line-height: 1.55;
+    color: rgba(12, 12, 12, 0.72);
+    padding-left: 16px;
+}
+
+.court-list li::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 8px;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: rgba(71, 89, 228, 0.4);
+}
+
+.judge-card {
+    border-radius: 14px;
+    padding: 26px;
+    background: #0C0C0C;
+    color: #F3F3F9;
+}
+
+.judge-tag {
+    display: inline-block;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: rgba(243, 243, 249, 0.6);
+    margin-bottom: 14px;
+}
+
+.judge-ruling {
+    font-size: 18px;
+    font-weight: 500;
+    line-height: 1.55;
+    color: #F3F3F9;
+    margin: 0 0 14px 0;
+}
+
+.judge-assessment {
+    font-size: 14px;
+    line-height: 1.6;
+    color: rgba(243, 243, 249, 0.72);
+    margin: 0 0 22px 0;
+}
+
+.judge-assessment:empty {
+    display: none;
+}
+
+.judge-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+    margin-bottom: 22px;
+}
+
+.judge-block-label {
+    display: block;
+    font-size: 11.5px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    color: rgba(243, 243, 249, 0.5);
+    margin-bottom: 10px;
+}
+
+.judge-block-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 9px;
+}
+
+.judge-block-list li {
+    position: relative;
+    font-size: 13.5px;
+    line-height: 1.5;
+    color: rgba(243, 243, 249, 0.82);
+    padding-left: 15px;
+}
+
+.judge-block-list li::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 7px;
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: rgba(71, 89, 228, 0.9);
+}
+
+.judge-action {
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 1.55;
+    color: #F3F3F9;
+    padding: 14px 18px;
+    border-radius: 10px;
+    background: rgba(71, 89, 228, 0.18);
+    border-left: 3px solid #4759E4;
+}
+
+.judge-action:empty {
+    display: none;
+}
+
+@media (max-width: 720px) {
+    .courtroom-columns {
+        grid-template-columns: 1fr;
+    }
+    .judge-grid {
+        grid-template-columns: 1fr;
+    }
+}
