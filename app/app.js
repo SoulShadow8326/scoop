@@ -11,6 +11,10 @@ document.addEventListener('DOMContentLoaded', () => {
     const report = document.getElementById('report');
     const detailsToggle = document.getElementById('details-toggle');
     const detailsBody = document.getElementById('details-body');
+    const watchCtaBtn = document.getElementById('watch-cta-btn');
+    const watchCta = document.getElementById('watch-cta');
+
+    let currentClaimId = null;
 
     if (!analyzeBtn || !claimInput) return;
 
@@ -132,6 +136,11 @@ document.addEventListener('DOMContentLoaded', () => {
         messageBox.classList.add('active');
     }
 
+    const CARD_CLASSES = [
+        'confidence-card', 'manipulation-card', 'integrity-card', 'dna-card',
+        'sources-card', 'citation-card', 'courtroom-card', 'recommendations-card'
+    ];
+
     async function runAnalysis() {
         const claimText = claimInput.value.trim();
         if (claimText.length < 8) {
@@ -140,34 +149,124 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         analyzeBtn.disabled = true;
-        startProgress();
+        beginStreaming(claimText);
 
+        let receivedDone = false;
         try {
-            const response = await fetch('/analyze', {
+            const response = await fetch('/analyze/stream', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ claim: claimText })
             });
 
-            if (!response.ok) throw new Error('Request failed');
+            if (!response.ok || !response.body) throw new Error('Request failed');
 
-            const data = await response.json();
-            finishProgress(() => renderReport(data, claimText));
+            const reader = response.body.getReader();
+            const decoder = new TextDecoder();
+            let buffer = '';
+
+            while (true) {
+                const { value, done } = await reader.read();
+                if (done) break;
+                buffer += decoder.decode(value, { stream: true });
+                let nl;
+                while ((nl = buffer.indexOf('\n')) >= 0) {
+                    const line = buffer.slice(0, nl).trim();
+                    buffer = buffer.slice(nl + 1);
+                    if (!line) continue;
+                    let evt;
+                    try { evt = JSON.parse(line); } catch (e) { continue; }
+                    if (evt.type === 'done') receivedDone = true;
+                    handleStreamEvent(evt, claimText);
+                }
+            }
+
+            if (!receivedDone) throw new Error('Stream ended early');
         } catch (error) {
-            showMessage('Something went wrong while running the full analysis. Please try again.');
+            if (!receivedDone) {
+                showMessage('Something went wrong while running the full analysis. Please try again.');
+                resetStreamingUI();
+            }
         } finally {
             analyzeBtn.disabled = false;
         }
     }
 
-    analyzeBtn.addEventListener('click', runAnalysis);
-    claimInput.addEventListener('keydown', (e) => {
-        if (e.key === 'Enter') runAnalysis();
-    });
+    function handleStreamEvent(evt, claimText) {
+        if (evt.type === 'stage' || evt.type === 'section') {
+            if (typeof evt.pct === 'number') setProgress(evt.pct, evt.label);
+            updateThinking(evt.label);
+        }
+        if (evt.type === 'section' && evt.data) {
+            renderSection(evt.section, evt.data, claimText);
+        } else if (evt.type === 'done' && evt.data) {
+            currentClaimId = evt.data.claim_id || null;
+            renderAllFinal(evt.data, claimText);
+            finishStreaming();
+        } else if (evt.type === 'error') {
+            showMessage('Something went wrong while running the full analysis. Please try again.');
+            resetStreamingUI();
+        }
+    }
 
-    function renderReport(data, claimText) {
+    function renderSection(section, data, claimText) {
+        switch (section) {
+            case 'dna': renderDNA(data); clearPending('dna-card'); break;
+            case 'sources': renderSources(data); clearPending('sources-card'); break;
+            case 'citation': renderCitation(data); clearPending('citation-card'); break;
+            case 'manipulation': renderManipulation(data); clearPending('manipulation-card'); break;
+            case 'integrity': renderIntegrity(data); clearPending('integrity-card'); break;
+            case 'confidence': renderConfidence(data); clearPending('confidence-card'); break;
+            case 'courtroom': renderCourtroom(data); clearPending('courtroom-card'); break;
+            case 'recommendations': renderRecommendations(data); clearPending('recommendations-card'); break;
+        }
+    }
+
+    function beginStreaming(claimText) {
+        stopProgressTimers();
+        messageBox.classList.remove('active');
+        currentClaimId = null;
+
+        progressBox.classList.add('active');
+        setProgress(4, 'Validating your question');
+
+        report.classList.add('active');
+        openDetails();
+        markAllPending();
+        answerThinking(claimText);
+
+        if (watchCta) watchCta.style.display = 'none';
+        if (watchCtaBtn) {
+            watchCtaBtn.disabled = true;
+            watchCtaBtn.classList.remove('watching');
+            watchCtaBtn.textContent = 'Watch this claim';
+        }
+
+        report.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+
+    function finishStreaming() {
+        setProgress(100, 'Report ready');
+        setTimeout(() => {
+            progressBox.classList.remove('active');
+            setProgress(0, stages[0].label);
+        }, 600);
+        if (watchCta) watchCta.style.display = '';
+        if (watchCtaBtn) watchCtaBtn.disabled = !currentClaimId;
+        if (window.ScoopTour) {
+            setTimeout(() => window.ScoopTour.startReport(false), 700);
+        }
+    }
+
+    function resetStreamingUI() {
+        stopProgressTimers();
+        progressBox.classList.remove('active');
+        report.classList.remove('active');
+        clearAllPending();
+    }
+
+    function renderAllFinal(data, claimText) {
         renderAnswer(data, claimText);
-        collapseDetails();
         renderConfidence(data);
         renderManipulation(data);
         renderIntegrity(data);
@@ -176,11 +275,88 @@ document.addEventListener('DOMContentLoaded', () => {
         renderCitation(data);
         renderCourtroom(data);
         renderRecommendations(data);
-        report.classList.add('active');
-        report.scrollIntoView({ behavior: 'smooth', block: 'start' });
-        if (window.ScoopTour) {
-            setTimeout(() => window.ScoopTour.startReport(false), 800);
+        clearAllPending();
+    }
+
+    function openDetails() {
+        if (!detailsToggle || !detailsBody) return;
+        detailsBody.classList.add('open');
+        detailsToggle.classList.add('open');
+        const label = detailsToggle.querySelector('.details-toggle-text');
+        if (label) label.textContent = 'Hide the full breakdown';
+    }
+
+    function markAllPending() {
+        CARD_CLASSES.forEach(c => {
+            const el = document.querySelector('.' + c);
+            if (el) { el.classList.add('card-pending'); el.classList.remove('card-filled'); }
+        });
+    }
+
+    function clearPending(cardClass) {
+        const el = document.querySelector('.' + cardClass);
+        if (el) { el.classList.remove('card-pending'); el.classList.add('card-filled'); }
+    }
+
+    function clearAllPending() {
+        CARD_CLASSES.forEach(c => {
+            const el = document.querySelector('.' + c);
+            if (el) el.classList.remove('card-pending');
+        });
+    }
+
+    function answerThinking(claimText) {
+        const claimEl = document.getElementById('answer-claim');
+        if (claimEl) claimEl.textContent = claimText;
+        const conf = document.getElementById('answer-conf');
+        if (conf) conf.textContent = '··';
+        const band = document.getElementById('answer-band');
+        if (band) {
+            band.className = 'answer-conf-band';
+            band.textContent = 'analyzing';
         }
+        const body = document.getElementById('answer-body');
+        if (body) {
+            body.innerHTML = '';
+            const p = document.createElement('p');
+            p.className = 'answer-line answer-thinking';
+            p.id = 'answer-thinking-line';
+            p.textContent = 'Working through the evidence…';
+            body.appendChild(p);
+        }
+        const flags = document.getElementById('answer-flags');
+        if (flags) flags.innerHTML = '';
+        const action = document.getElementById('answer-action');
+        if (action) action.innerHTML = '';
+    }
+
+    function updateThinking(label) {
+        const line = document.getElementById('answer-thinking-line');
+        if (line && label) line.textContent = label + '…';
+    }
+
+    analyzeBtn.addEventListener('click', runAnalysis);
+    claimInput.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter') runAnalysis();
+    });
+
+    if (watchCtaBtn) {
+        watchCtaBtn.addEventListener('click', async () => {
+            if (!currentClaimId) return;
+            watchCtaBtn.disabled = true;
+            watchCtaBtn.textContent = 'Opening Watch Mode…';
+            try {
+                await fetch('/watch/' + encodeURIComponent(currentClaimId), {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ claim_id: currentClaimId, recheck_horizon_hours: 24 })
+                });
+            } catch (e) {
+                // Even if the watch call fails we still navigate; the page will
+                // surface the timeline (or empty state) for this claim.
+            }
+            window.location.href = '/watch?claim=' + encodeURIComponent(currentClaimId);
+        });
     }
 
     function renderAnswer(data, claimText) {

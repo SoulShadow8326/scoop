@@ -278,6 +278,79 @@
     display: flex;
 }
 
+.watch-cta {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+    padding: 22px 28px;
+    border-radius: 16px;
+    background: rgba(71, 89, 228, 0.05);
+    border: 1px solid rgba(71, 89, 228, 0.18);
+}
+
+.watch-cta-copy {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.watch-cta-eyebrow {
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 1.2px;
+    text-transform: uppercase;
+    color: rgba(71, 89, 228, 0.9);
+}
+
+.watch-cta-text {
+    font-size: 15px;
+    line-height: 1.55;
+    color: rgba(12, 12, 12, 0.7);
+    margin: 0;
+    max-width: 620px;
+}
+
+.watch-cta-btn {
+    flex: none;
+    font-family: 'Poppins', sans-serif;
+    font-size: 15px;
+    font-weight: 600;
+    color: #F3F3F9;
+    background: #4759E4;
+    border: none;
+    border-radius: 8px;
+    padding: 13px 26px;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: background 0.2s ease;
+}
+
+.watch-cta-btn:hover {
+    background: #3647c4;
+}
+
+.watch-cta-btn:disabled {
+    background: rgba(71, 89, 228, 0.5);
+    cursor: progress;
+}
+
+.watch-cta-btn.watching {
+    background: rgba(71, 89, 228, 0.12);
+    color: #4759E4;
+    cursor: default;
+}
+
+@media (max-width: 720px) {
+    .watch-cta {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    .watch-cta-btn {
+        width: 100%;
+    }
+}
+
 .report-details {
     display: flex;
     flex-direction: column;
@@ -346,6 +419,49 @@
     border-radius: 16px;
     padding: 28px;
     box-sizing: border-box;
+}
+
+/* Streaming: a card waiting for its engine to finish */
+.report-card.card-pending {
+    position: relative;
+    opacity: 0.5;
+    transition: opacity 0.3s ease;
+}
+
+.report-card.card-pending::after {
+    content: "Analyzing\2026";
+    position: absolute;
+    top: 18px;
+    right: 20px;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.6px;
+    text-transform: uppercase;
+    color: #4759E4;
+    background: rgba(71, 89, 228, 0.08);
+    border: 1px solid rgba(71, 89, 228, 0.16);
+    border-radius: 999px;
+    padding: 4px 11px;
+    animation: cardPendingPulse 1.4s ease-in-out infinite;
+}
+
+@keyframes cardPendingPulse {
+    0%, 100% { opacity: 0.45; }
+    50% { opacity: 1; }
+}
+
+/* Streaming: a card that just received its data */
+.report-card.card-filled {
+    animation: cardReveal 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@keyframes cardReveal {
+    from { opacity: 0.35; transform: translateY(8px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.answer-thinking {
+    color: rgba(12, 12, 12, 0.55);
 }
 
 .section-head {

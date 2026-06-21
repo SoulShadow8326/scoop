@@ -1,0 +1,130 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Scoop | Watch Mode</title>
+    <meta
+      name="description"
+      content="A living trust timeline. Watch Mode continuously tracks an evolving claim and shows why its trustworthiness changes over time."
+    />
+    <script>
+      try {
+        if (localStorage.getItem("scoop_onboarded") !== "true") {
+          window.location.replace("/login");
+        }
+      } catch (e) {}
+    </script>
+    <link rel="icon" type="image/svg+xml" href="/static/assets/logo.svg" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/static/landing/landing.css" />
+    <link rel="stylesheet" href="/static/header/header.css" />
+    <link rel="stylesheet" href="/static/app/app.css" />
+    <link rel="stylesheet" href="/static/app/watch/watch.css" />
+    <link rel="stylesheet" href="/static/footer/footer.css" />
+  </head>
+  <body>
+    {% include "header/header.html" %}
+    <main class="watch-main">
+      <!-- Empty / no-claim state -->
+      <section id="watch-empty" class="watch-empty">
+        <span class="watch-eyebrow">Watch Mode</span>
+        <h1 class="watch-empty-title">A living trust timeline.</h1>
+        <p class="watch-empty-lead">
+          Most fact-checkers give you a snapshot. Scoop tracks how a claim's
+          trustworthiness evolves as new evidence, sources, and corrections
+          surface. Run a full report, then watch the claim to open mission
+          control.
+        </p>
+        <a href="/app" class="watch-empty-btn">Run a full report</a>
+      </section>
+
+      <!-- Mission control -->
+      <section id="watch-room" class="watch-room" aria-hidden="true">
+        <header class="watch-head">
+          <div class="watch-head-id">
+            <span class="watch-eyebrow">
+              <span class="watch-live-dot"></span>
+              <span id="watch-live-label">Watching</span>
+            </span>
+            <h1 id="watch-claim" class="watch-claim">&nbsp;</h1>
+          </div>
+          <div class="watch-head-actions">
+            <button id="watch-recheck" class="watch-recheck-btn">
+              Run a fresh check now
+            </button>
+            <a href="/app" class="watch-back-link">New analysis</a>
+          </div>
+        </header>
+
+        <div class="watch-stats">
+          <div class="watch-stat watch-stat-lead">
+            <span class="watch-stat-label">Current confidence</span>
+            <div class="watch-stat-conf">
+              <span id="stat-prev" class="watch-stat-prev"></span>
+              <span id="stat-arrow" class="watch-stat-arrow"></span>
+              <span id="stat-current" class="watch-stat-current">0%</span>
+            </div>
+            <div id="stat-delta" class="watch-stat-delta"></div>
+          </div>
+          <div class="watch-stat">
+            <span class="watch-stat-label">Status</span>
+            <span id="stat-status" class="watch-stat-status">Baseline set</span>
+            <span id="stat-band" class="watch-stat-band"></span>
+          </div>
+          <div class="watch-stat">
+            <span class="watch-stat-label">Checks run</span>
+            <span id="stat-count" class="watch-stat-big">0</span>
+            <span class="watch-stat-sub">analysis snapshots</span>
+          </div>
+          <div class="watch-stat">
+            <span class="watch-stat-label">Last updated</span>
+            <span id="stat-updated" class="watch-stat-big">—</span>
+            <span id="stat-horizon" class="watch-stat-sub"></span>
+          </div>
+        </div>
+
+        <div id="watch-recheck-msg" class="watch-recheck-msg" role="status"></div>
+
+        <div class="watch-grid">
+          <div class="watch-col watch-col-wide">
+            <section class="watch-card">
+              <div class="watch-card-head">
+                <span class="watch-card-eyebrow">Confidence history</span>
+                <h2 class="watch-card-title">How trust has evolved</h2>
+              </div>
+              <div id="watch-chart" class="watch-chart"></div>
+              <p class="watch-chart-note">
+                Each point is a full re-analysis. Information isn't static —
+                this is the trust line moving as evidence changes.
+              </p>
+            </section>
+          </div>
+
+          <div class="watch-col">
+            <section class="watch-card watch-card-timeline">
+              <div class="watch-card-head">
+                <span class="watch-card-eyebrow">Activity</span>
+                <h2 class="watch-card-title">Timeline</h2>
+              </div>
+              <ol id="watch-timeline" class="watch-timeline"></ol>
+            </section>
+
+            <section class="watch-card">
+              <div class="watch-card-head">
+                <span class="watch-card-eyebrow">Why it changed</span>
+                <h2 class="watch-card-title">Change log</h2>
+              </div>
+              <div id="watch-changes" class="watch-changes"></div>
+            </section>
+          </div>
+        </div>
+      </section>
+    </main>
+    {% include "footer/footer.html" %}
+    <script src="/static/app/watch/watch.js"></script>
+  </body>
+</html>

@@ -61,7 +61,7 @@
             autocomplete="off"
           />
           <button id="analyze-btn" class="app-analyze-btn">
-            Run full analysis
+            Run Analysis
           </button>
         </div>
         <div class="app-intro-meta">
@@ -98,6 +98,18 @@
 
       <div id="report" class="report">
         {% include "app/answer/answer.html" %}
+        <div id="watch-cta" class="watch-cta">
+          <div class="watch-cta-copy">
+            <span class="watch-cta-eyebrow">Watch Mode</span>
+            <p class="watch-cta-text">
+              Information evolves. Track this claim and Scoop will show how its
+              trustworthiness shifts as new evidence and sources surface.
+            </p>
+          </div>
+          <button type="button" id="watch-cta-btn" class="watch-cta-btn">
+            Watch this claim
+          </button>
+        </div>
         <div class="report-details">
           <button type="button" id="details-toggle" class="details-toggle">
             <span class="details-toggle-text">Show the full breakdown</span>
